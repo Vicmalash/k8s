@@ -4,11 +4,13 @@ metadata:
   name: backend
   namespace: yolo
 spec:
+  type: LoadBalancer
+  loadBalancerIP: 136.116.211.220
   selector:
     app: backend
   ports:
-    - port: 5000
+    - protocol: TCP
+      port: 5000
       targetPort: 5000
-      protocol: TCP
-  type: LoadBalancer
+
 
