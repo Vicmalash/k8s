@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: yolo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: vicmalash/yolo-backend:v1.1.0
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              value: mongodb://mongo.yolo.svc.cluster.local:27017/yolo
+          volumeMounts:
+            - name: backend-storage
+              mountPath: /usr/src/app/uploads
+          resources:
+            requests:
+              cpu: "100m"        # Minimum guaranteed CPU
+              memory: "128Mi"    # Minimum guaranteed memory
+            limits:
+              cpu: "500m"        # Maximum CPU allowed
+              memory: "512Mi"    # Maximum memory allowed
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+      volumes:
+        - name: backend-storage
+          persistentVolumeClaim:
+            claimName: backend-pvc
