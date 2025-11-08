@@ -27,5 +27,5 @@ spec:
       volumes:
         - name: frontend-storage
           persistentVolumeClaim:
-            claimName: frontend-pvc
+            claimName: frontend-pvcc
 
