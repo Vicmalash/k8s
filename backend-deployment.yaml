@@ -26,11 +26,11 @@ spec:
               mountPath: /usr/src/app/uploads
           resources:
             requests:
-              cpu: "100m"        # Minimum guaranteed CPU
-              memory: "128Mi"    # Minimum guaranteed memory
+              cpu: "100m"        
+              memory: "128Mi"    
             limits:
-              cpu: "500m"        # Maximum CPU allowed
-              memory: "512Mi"    # Maximum memory allowed
+              cpu: "500m"        
+              memory: "512Mi"    
           readinessProbe:
             httpGet:
               path: /health
